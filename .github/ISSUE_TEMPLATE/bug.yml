@@ -1,0 +1,24 @@
+name: Bug report
+description: Describe a reproducible failure using fictional data.
+title: "[Bug] "
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the role used and any fictional test data needed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Include useful errors without credentials or personal information.
+    validations:
+      required: true

@@ -1,0 +1,35 @@
+name: Project task
+description: Agree a small, reviewable piece of work before starting.
+title: "[Task] "
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected result
+      description: What user or project outcome will this task deliver?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: State observable pass/fail conditions, including permissions or failure cases where relevant.
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: input
+    id: coordination
+    attributes:
+      label: Owner and reviewer
+      description: Assign one accountable owner and a different reviewer.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and shared changes
+      description: Link blocking issues and identify shared models, interfaces or configuration affected.
+  - type: input
+    id: target
+    attributes:
+      label: Target date and effort estimate
