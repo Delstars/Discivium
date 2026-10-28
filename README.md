@@ -15,7 +15,7 @@ Planning and repository setup. The application has not been implemented yet.
 The proposed first release focuses on a complete coursework journey:
 
 - A lecturer publishes an assignment with a due date.
-- An enrolled student sees upcoming deadlines and submits a text response.
+- An enrolled student sees upcoming deadlines and submits an assignment file.
 - The lecturer records feedback and the student views it.
 - Permission checks keep each user's records within their authorized role and course.
 
@@ -27,12 +27,12 @@ Python, Django, server-rendered HTML/CSS, and SQLite for the initial local proto
 
 ## Getting started
 
-Clone the repository, then read [the roadmap](docs/ROADMAP.md) and [the contribution guide](CONTRIBUTING.md). There are no application setup or run commands yet; add and verify them when the first runnable application is merged.
+Clone the repository, then read [the roadmap](docs/ROADMAP.md), [the proposed architecture](docs/ARCHITECTURE.md) and [the contribution guide](CONTRIBUTING.md). There are no application setup or run commands yet; add and verify them when the first runnable application is merged.
 
 ## Working together
 
 Claim an issue before implementation, use a branch for each task, and open a pull request for another teammate to review. Keep `main` runnable once application development begins.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [the check-in checklist](docs/CHECK_IN.md), and [the architecture decision template](docs/decisions/0000-template.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [the check-in checklist](docs/CHECK_IN.md), [the proposed architecture](docs/ARCHITECTURE.md), and [the architecture decision template](docs/decisions/0000-template.md).
 
 Use fictional accounts and records in code, screenshots and demonstrations. Keep secrets, real student information and supplied lecture materials out of the public repository.

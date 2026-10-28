@@ -1,0 +1,55 @@
+@startuml
+' Discivium proposed use cases
+
+title Discivium - Proposed Use Cases
+left to right direction
+skinparam shadowing false
+
+actor Student
+actor Lecturer
+actor "Staff decision maker" as Staff
+
+rectangle "Discivium first release" {
+  usecase "View enrolled course" as ViewCourse
+  usecase "View published assignment" as ViewAssignment
+  usecase "Submit assignment file" as SubmitFile
+  usecase "View own feedback" as ViewFeedback
+  usecase "Publish assignment" as PublishAssignment
+  usecase "View course submissions" as ViewSubmissions
+  usecase "Give feedback" as GiveFeedback
+}
+
+Student --> ViewCourse
+Student --> ViewAssignment
+Student --> SubmitFile
+Student --> ViewFeedback
+
+Lecturer --> ViewCourse
+Lecturer --> PublishAssignment
+Lecturer --> ViewSubmissions
+Lecturer --> GiveFeedback
+
+rectangle "Future roadmap demonstrations" #DDDDDD {
+  usecase "View fictional academic record" as ViewRecord
+  usecase "Select fictional courses" as SelectCourses
+  usecase "View fictional finance data" as ViewFinance
+  usecase "Submit student-service request" as SubmitRequest
+  usecase "Decide student-service request" as DecideRequest
+}
+
+Student ..> ViewRecord : later
+Student ..> SelectCourses : later
+Student ..> ViewFinance : later
+Student ..> SubmitRequest : later
+Staff ..> DecideRequest : later
+
+note right of SubmitFile
+  First-release submission is
+  one validated PDF or DOCX file.
+end note
+
+legend right
+  Solid actors and use cases: first-release workflow.
+  Gray use cases and dashed links: future roadmap scope.
+endlegend
+@enduml

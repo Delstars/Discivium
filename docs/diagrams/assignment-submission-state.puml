@@ -1,0 +1,34 @@
+@startuml
+' Discivium proposed assignment and submission states
+
+title Discivium - Assignment and Submission States
+skinparam shadowing false
+
+state "Assignment lifecycle" as AssignmentLifecycle {
+  [*] --> Draft
+  Draft --> Published : lecturer publishes
+  Published --> Closed : assignment is closed
+  Draft --> [*] : discarded before publication
+  Closed --> [*]
+}
+
+state "Submission lifecycle" as SubmissionLifecycle {
+  [*] --> Submitted : valid file accepted
+  Submitted --> Reviewed : lecturer records feedback
+  Reviewed --> [*]
+}
+
+note right of AssignmentLifecycle
+  Unpublished assignments cannot be
+  viewed by students or receive files.
+  The team must decide whether a
+  published assignment can be unpublished.
+end note
+
+note right of SubmissionLifecycle
+  The first release models one file
+  per submission. Late submissions
+  and resubmissions remain policy
+  decisions before implementation.
+end note
+@enduml

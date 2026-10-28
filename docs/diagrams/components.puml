@@ -1,0 +1,64 @@
+@startuml
+' Discivium proposed component architecture
+
+title Discivium - Proposed Component Architecture
+left to right direction
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor Student
+actor Lecturer
+
+package "Discivium Django application" {
+  component "Shared presentation\nand configuration" as Presentation
+  component "Identity and access" as Identity
+  component "Courses and enrollment" as Courses
+  component Learning
+
+  package "Future modules" #F5F5F5 {
+    component "Academic record" as AcademicRecord #DDDDDD
+    component Registration #DDDDDD
+    component Finance #DDDDDD
+    component "Student services" as StudentServices #DDDDDD
+  }
+}
+
+database "SQLite database" as Database
+folder "Local media storage" as Media
+
+Student --> Presentation : browse
+Lecturer --> Presentation : browse
+Presentation --> Identity : authenticate
+Presentation --> Courses : course pages
+Presentation --> Learning : learning pages
+Presentation --> AcademicRecord : later pages
+Presentation --> Registration : later pages
+Presentation --> Finance : later pages
+Presentation --> StudentServices : later pages
+
+Learning --> Identity : authenticated user
+Learning --> Courses : enrollment and teaching checks
+Learning --> Database : assignments, submissions, feedback
+Learning --> Media : assignment files
+
+AcademicRecord ..> Identity : later: user access
+AcademicRecord ..> Courses : later: course context
+Registration ..> Identity : later: user access
+Registration ..> Courses : later: offerings and enrollment request
+Registration ..> AcademicRecord : later: prerequisite results
+Finance ..> Identity : later: user access
+Finance ..> Courses : later: enrollment context
+Finance ..> Registration : later: approved registration outcome
+StudentServices ..> Identity : later: user access
+StudentServices ..> Courses : later: course context
+
+Identity --> Database : users and roles
+Courses --> Database : courses and enrollments
+
+legend right
+  Solid components and arrows: first-release structure.
+  Gray components and dashed arrows: future roadmap scope.
+  Modules own their records and do not write directly to another module's records.
+endlegend
+@enduml

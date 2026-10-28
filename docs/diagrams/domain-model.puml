@@ -1,0 +1,95 @@
+@startuml
+' Discivium proposed domain model
+
+title Discivium - Proposed Domain Model
+hide methods
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+package "First-release domain" {
+  class User {
+    id: ID
+    login identity
+    role
+  }
+
+  class Course {
+    id: ID
+    name
+    responsible lecturer
+  }
+
+  class Enrollment {
+    student
+    course
+    active status
+  }
+
+  class Assignment {
+    title
+    due date
+    publication state
+  }
+
+  class Submission {
+    stored file reference
+    original filename
+    submitted at
+  }
+
+  class Feedback {
+    feedback text
+    created at
+    updated at
+  }
+}
+
+User "1" -- "0..*" Enrollment : student
+Course "1" -- "0..*" Enrollment : course
+Course "1" -- "0..*" Assignment
+Assignment "1" -- "0..*" Submission
+User "1" -- "0..*" Submission : student
+Submission "1" -- "0..1" Feedback
+User "1" -- "0..*" Feedback : lecturer
+
+package "Future roadmap domain" #F5F5F5 {
+  class AcademicResult #DDDDDD {
+    fictional result
+    grade or mark
+  }
+
+  class RegistrationRequest #DDDDDD {
+    selected courses
+    decision
+  }
+
+  class Invoice #DDDDDD {
+    fictional amount
+    status
+  }
+
+  class ServiceRequest #DDDDDD {
+    request type
+    status
+    staff decision
+  }
+}
+
+Course ..> AcademicResult : later: result context
+User ..> AcademicResult : later: owns result
+User ..> RegistrationRequest : later: submits
+Course ..> RegistrationRequest : later: selected offering
+RegistrationRequest ..> Invoice : later: approved outcome reference
+User ..> Invoice : later: views fictional data
+User ..> ServiceRequest : later: submits
+
+note right of Submission
+  First release: one validated PDF or DOCX file.
+  The student is derived from the authenticated user.
+end note
+
+legend right
+  Solid classes and relationships: first-release domain.
+  Gray classes and dashed relationships: future proposal.
+endlegend
+@enduml

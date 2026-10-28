@@ -1,0 +1,36 @@
+@startuml
+' Discivium proposed assignment-submission activity
+
+title Discivium - Submit Assignment File Activity
+skinparam shadowing false
+
+start
+:Student opens a published assignment;
+:Student selects one PDF or DOCX file;
+:Student submits the form;
+:Authenticate request and read request.user;
+
+if (Authenticated student?) then (yes)
+  :Load assignment and course;
+  if (Active enrollment exists?) then (yes)
+    if (Assignment is published?) then (yes)
+      :Validate file type and maximum size;
+      if (File is valid?) then (yes)
+        :Create Submission for request.user;
+        :Store file reference and metadata;
+        :Show successful submission result;
+      else (no)
+        :Return file-validation error;
+      endif
+    else (no)
+      :Return safe unavailable response;
+    endif
+  else (no)
+    :Return safe forbidden or not-found response;
+  endif
+else (no)
+  :Redirect to sign-in or return authentication error;
+endif
+
+stop
+@enduml
