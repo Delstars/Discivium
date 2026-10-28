@@ -6,7 +6,7 @@ This is a proposed roadmap for the team to validate, not a claim that these feat
 
 | Module | Purpose | First milestone | Later scope |
 | --- | --- | --- | --- |
-| Learning | Assignments, due dates, submissions and feedback | Complete academic workflow | Files, notifications and richer course content |
+| Learning | Assignments, due dates, file submissions and feedback | Complete academic workflow | Notifications and richer course content |
 | Academic record | Course results, GPA and transcripts | Optional fictional record display | Validated grading policies, transcript exports and official-system integration |
 | Registration | Course selection and enrollment | Optional demonstration using fictional offerings | Prerequisites, seat availability, timetable clashes and concurrent enrollment |
 | Finance | Fees, invoices and payment history | Optional fictional balance display | Authorized payment-provider integration, verified payment events and reconciliation |
@@ -36,3 +36,5 @@ Finish the academic workflow before starting registration, payments or administr
 ## Architecture to evaluate
 
 Start by evaluating a single Django application with clear internal modules against an alternative such as microservices. Record the team’s own quality requirements, evidence and trade-offs before choosing. The repository structure, diagrams and demonstrated runtime should describe the same system.
+
+Use the [proposed technology and system architecture](ARCHITECTURE.md) as the working baseline for the learning workflow, and update it as the team validates requirements and experiments.

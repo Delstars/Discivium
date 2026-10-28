@@ -1,0 +1,52 @@
+@startuml submit-assignment-sequence
+' Discivium proposed assignment-submission sequence
+
+title Discivium - Submit Assignment File Sequence
+hide footbox
+skinparam shadowing false
+
+actor Student
+boundary "Web browser" as Browser
+control "Django web application" as App
+participant "Identity and access" as Identity
+participant "Courses and enrollment" as Courses
+participant Learning
+participant "SQLite database" as Database
+participant "Local media storage" as Media
+
+Student -> Browser: Select one PDF or DOCX file
+Student -> Browser: Submit assignment form
+Browser -> App: POST submission request
+App -> Identity: Read authenticated request.user
+Identity --> App: Authenticated user and role
+
+alt Not an authenticated student
+  App --> Browser: Safe authentication error
+else Authenticated student
+  App -> Courses: Check active enrollment
+  Courses -> Database: Read Enrollment
+  Database --> Courses: Enrollment result
+  Courses --> App: Authorized or denied
+
+  alt No active enrollment
+    App --> Browser: Safe forbidden or not-found response
+  else Active enrollment
+    App -> Learning: Validate assignment and file
+    Learning -> Database: Read Assignment
+    Database --> Learning: Published assignment
+
+    alt Assignment unavailable or file invalid
+      Learning --> App: Validation failure
+      App --> Browser: Error without creating Submission
+    else Valid submission
+      Learning -> Media: Store uploaded file
+      Media --> Learning: File reference and metadata
+      Learning -> Database: Create Submission for request.user
+      Database --> Learning: Submission persisted
+      Learning --> App: Submission result
+      App --> Browser: Success page
+      Browser --> Student: Submission confirmation
+    end
+  end
+end
+@enduml

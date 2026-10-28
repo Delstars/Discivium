@@ -1,0 +1,48 @@
+@startuml
+' Discivium proposed local deployment
+
+title Discivium - Proposed Local Deployment
+left to right direction
+skinparam nodeStyle rectangle
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+node "Student or lecturer device" as Client {
+  component "Web browser" as Browser
+}
+
+node "Local development machine" as Host {
+  node "Django application process" as App {
+    component "Discivium web application" as WebApp
+  }
+
+  database "SQLite database file" as Database
+  folder "Local media storage" as Media
+}
+
+Browser --> WebApp : HTTP requests and HTML responses
+WebApp --> Database : Django ORM reads and writes
+WebApp --> Media : store and retrieve submission files
+
+note right of Host
+  First-release local prototype.
+  Database files, uploaded files,
+  credentials and environment files
+  stay outside version control.
+end note
+
+cloud "Future hosted environment" as Future #DDDDDD {
+  component "Hosted Django application" as HostedApp
+  database "Managed database" as ManagedDb
+  folder "Hosted media storage" as HostedMedia
+}
+
+Future ..> Host : later deployment option
+HostedApp ..> ManagedDb : later database separation
+HostedApp ..> HostedMedia : later media separation
+
+legend right
+  The future hosted environment is not required for the first release.
+  Deployment choices must be verified by a clean setup rehearsal.
+endlegend
+@enduml

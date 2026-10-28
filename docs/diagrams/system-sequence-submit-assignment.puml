@@ -1,0 +1,23 @@
+@startuml
+' Discivium system sequence for assignment submission
+
+title Discivium - System Sequence: Submit Assignment File
+hide footbox
+skinparam shadowing false
+
+actor Student
+boundary "Discivium system" as System
+
+Student -> System: viewPublishedAssignment(assignmentId)
+System --> Student: assignment details and submission form
+
+Student -> System: submitAssignmentFile(assignmentId, file)
+alt Request is authorized and file is valid
+  System --> Student: submission confirmation
+else Request is unauthorized or file is invalid
+  System --> Student: safe error response
+end
+
+Student -> System: viewOwnSubmission(assignmentId)
+System --> Student: submission status and file metadata
+@enduml

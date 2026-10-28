@@ -5,3 +5,4 @@ Keep a factual record of assistance, checks and changes. Each team member is res
 | Date | Tool | Assistance | Review and changes |
 | --- | --- | --- | --- |
 | 2026-10-25 | Codex | Initial repository documentation, workflow templates and proposed roadmap | Team review pending; no application or course analysis implemented |
+| 2026-10-28 | GitHub Copilot | Expanded the proposed architecture across all roadmap modules; created UML source diagrams and the team UML installation, maintenance and visual-review guide; checked documentation consistency and links | Team review pending; documented in [PR #4](https://github.com/Delstars/Discivium/pull/4) |
