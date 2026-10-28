@@ -1,4 +1,4 @@
-@startuml
+@startuml assignment-submission-state
 ' Discivium proposed assignment and submission states
 
 title Discivium - Assignment and Submission States

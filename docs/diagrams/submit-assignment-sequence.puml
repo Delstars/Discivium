@@ -1,4 +1,4 @@
-@startuml
+@startuml submit-assignment-sequence
 ' Discivium proposed assignment-submission sequence
 
 title Discivium - Submit Assignment File Sequence
@@ -8,11 +8,11 @@ skinparam shadowing false
 actor Student
 boundary "Web browser" as Browser
 control "Django web application" as App
-component "Identity and access" as Identity
-component "Courses and enrollment" as Courses
-component Learning
-database "SQLite database" as Database
-folder "Local media storage" as Media
+participant "Identity and access" as Identity
+participant "Courses and enrollment" as Courses
+participant Learning
+participant "SQLite database" as Database
+participant "Local media storage" as Media
 
 Student -> Browser: Select one PDF or DOCX file
 Student -> Browser: Submit assignment form
