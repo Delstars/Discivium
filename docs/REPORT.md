@@ -4,13 +4,13 @@ Draft for team verification • Fall 2026 • Canadian University Dubai
 
 **Team:** [insert registered team number and names]  
 **Instructor:** Dr. Khaled Ammar  
-**Repository:** https://github.com/Delstars/Discivium-test
+**Repository:** https://github.com/Delstars/Discivium
 
 This report describes the expanded Discivium local demonstration, including the React presentation and Python campus modules. The original coursework slice remains the primary assessed vertical workflow. It is not a claim that the full university platform is complete or that every proposed quality target has been measured. Replace bracketed fields with verified team information before submitting.
 
 ## 1. Introduction and problem statement
 
-Students and lecturers may need separate tools for coursework, deadlines, academic records and campus services. Fragmented workflows create avoidable context switching and make it harder to track the status of assignments and feedback. Discivium proposes a unified university portal for a UAE university context. The implemented release focuses on the coursework journey: a lecturer publishes an assignment, an enrolled student uploads a document, the lecturer downloads and grades it, and the student sees the feedback. Administrators can enroll students. The advisor interface explicitly states that advising is not implemented.
+Students and lecturers may need separate tools for coursework, deadlines, academic records and campus services. Fragmented workflows create avoidable context switching and make it harder to track the status of assignments and feedback. Discivium proposes a unified university portal for a UAE university context. The implemented release focuses on the coursework journey: a lecturer publishes an assignment, an enrolled student uploads a document, the lecturer downloads and grades it, and the student sees the feedback. Administrators can enroll students. Assigned advisors can see participating students’ academic records and add shared notes while consent is active.
 
 Implemented scope: authenticated student, lecturer, administrator and consent-controlled advisor portals; coursework and resources; registration and timetable; attendance and released academic records; simulated finance; campus requests; internal discussion and polls; programmes, accounts, assignments and audit. Scope exclusions: real university integration, real payments, official transcripts, AI, cloud deployment and production security. The prototype uses fictional data, and no stakeholder interviews or institutional adoption are claimed.
 

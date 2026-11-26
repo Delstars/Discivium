@@ -1,8 +1,18 @@
 # Discivium — BCS305 coursework prototype
 
-**Current implementation (main branch).** A runnable local university management and coursework system, using fictional accounts. The original Google AI Studio React/Firebase/Express implementation is archived in Discivium-test on the `legacy-ai-studio-backup` branch and removed from the active source tree. AI is excluded from the active release.
+**Current implementation.** A runnable local university management and coursework system, using fictional accounts. The original Google AI Studio React/Firebase/Express implementation is archived in Discivium-test on the `legacy-ai-studio-backup` branch and removed from the active source tree. AI is excluded from the active release.
 
-## Run the complete React + Python application (Python 3.11+, Node.js 20+)
+## Run the presentation build (Python 3.11+)
+
+Open [Frontend integration verification](https://github.com/Delstars/Discivium/actions/workflows/frontend-verification.yml?query=branch%3Aintegrate-tested-prototype), select the latest successful run for the presentation branch, and download **Discivium-offline-demo** from its artifacts. GitHub requires sign-in for artifact downloads. Unzip it before the presentation. From the extracted folder, run:
+
+```sh
+python -m prototype.app --db prototype/runtime/presentation.sqlite3
+```
+
+On Windows use `py -3` if needed. Open [the demo](http://127.0.0.1:8000/ui/). The ZIP already includes the built React interface. See the [rehearsal guide](docs/DEMO.md) for the walkthrough, fallback URL and database options.
+
+## Build from source (Python 3.11+, Node.js 20+)
 
 From the repository root:
 ```sh

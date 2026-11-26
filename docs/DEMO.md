@@ -8,7 +8,7 @@ Confirm the actual time limit and team order with the instructor. This is a sugg
 3. Analysis: UC2 activity and SSD; distinguish system as black box from internal sequence; late is a flag, graded is terminal.
 4. Architecture: layered modular monolith, components and deployment; compare microservices and event-driven alternatives; one authoritative database and trade-offs.
 5. Patterns: Facade orchestrates submission; Strategy implements two deadline policies; Adapter encapsulates file storage; Observer persists audit/notification. Explain each cost.
-6. Live demo: lecturer publishes, student uploads a real document, lecturer downloads and grades, student sees feedback. Show unauthorized account rejected. Use separate private browser windows to save time. 
+6. Live demo: lecturer publishes, student uploads a real document, lecturer downloads and grades, student sees feedback. Show unauthorized account rejected. Use separate browser profiles for lecturer and student. Private windows from the same profile can share session cookies. 
 7. Verification, limitations, and reflection: show GitHub Actions and tests, local-only security, deferred features, actual AI assistance and next improvements.
 
 ## Questions everyone should be ready to answer
@@ -23,7 +23,9 @@ Confirm the actual time limit and team order with the instructor. This is a sugg
 - What was generated with AI, what did the team verify or change, and what is still outside scope?
 
 ## Rehearsal checklist
-- Clone the rebuild branch on a second team member's machine and run the tests.
+- Download the offline demo ZIP from a successful run for the presentation branch and rehearse on the presentation laptop. [Download and startup instructions](../README.md#run-the-presentation-build-python-311)
+- If port 8000 is occupied, add `--port 8001` to the startup command and open `http://127.0.0.1:8001/ui/`. Use a new filename with `--db` to start a fresh demo without deleting rehearsal data. Keep the same filename when demonstrating persistence after a restart.
+- If the React build is unavailable, use the server-rendered demo at `/` for the coursework flow.
 - Prepare a small fictional PDF and a DOCX. Test upload, download, grading and restart persistence.
 - Demonstrate denied access as other / lecturer2. Do not enroll other in BCS305 before this check.
 - Verify the generated report and UML PDFs visually; fill actual team contributions and signatures.

@@ -51,3 +51,14 @@ jobs:
         with:
           name: frontend-browser-evidence
           path: ui/browser-evidence/
+      - name: Upload offline presentation demo
+        uses: actions/upload-artifact@v4
+        with:
+          name: Discivium-offline-demo
+          if-no-files-found: error
+          path: |
+            README.md
+            docs/DEMO.md
+            prototype/*.py
+            prototype/*.sql
+            ui/dist/
