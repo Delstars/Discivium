@@ -1,6 +1,6 @@
 # Expanded campus release — documentation handoff
 
-This is a scope update after the original coursework report. The original fifteen UML sources describe the tested coursework slice. The revised REPORT.md and ten additional campus UML views cover the expanded system; inspect the final exports and add verified team details before submission. The report is still a draft; actual contribution statements, performance measurements, and visual inspection are outstanding.
+This is a scope update after the original coursework report. The original fifteen UML sources describe the tested coursework slice. The revised REPORT.md and ten additional campus UML views cover the expanded system; inspect the final exports and add verified team details before submission. The report is still a draft; actual signed contribution statements and final team review are outstanding. Verified local performance measurements are in VERIFICATION.md.
 
 ## Active modules and responsibilities
 
@@ -28,4 +28,4 @@ New state machines worth drawing: ServiceRequest (pending -> in_review -> resolv
 
 Frontend: backend and fallback interface are committed; the React UI was integrated on main and independently verified through build and role-navigation tests. See UI_API.md and AI_STUDIO_PROMPT.md. Testing and report export evidence must be checked for the current commit; previous green runs do not certify later changes.
 
-Repository layout: main is the clean current implementation; legacy-ai-studio-backup preserves the original AI Studio source. ui-redesign is an optional frontend-only branch. If the tool only supports main, edit only ui/ and preserve every other path.
+Repository layout: main is the clean current implementation; the source development repository Discivium-test preserves the legacy-ai-studio-backup and ui-redesign branches. The verified release was imported from Discivium-test commit 33917f9957f194c8aef2a865ca38b942c724c381; historical planning records remain in this repository.
