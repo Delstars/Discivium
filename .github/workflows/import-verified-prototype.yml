@@ -1,0 +1,59 @@
+name: Import verified Discivium prototype
+on:
+  push:
+    branches: [integrate-tested-prototype]
+    paths: ['.github/workflows/import-verified-prototype.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: integrate-tested-prototype
+      - name: Fetch pinned public source
+        run: |
+          git clone --no-checkout https://github.com/Delstars/Discivium-test.git /tmp/discivium-source
+          git -C /tmp/discivium-source checkout --detach 33917f9957f194c8aef2a865ca38b942c724c381
+          test "$(git -C /tmp/discivium-source rev-parse HEAD)" = 33917f9957f194c8aef2a865ca38b942c724c381
+      - name: Copy verified implementation and retain planning records
+        run: |
+          cp -a /tmp/discivium-source/prototype /tmp/discivium-source/ui .
+          cp /tmp/discivium-source/package.json /tmp/discivium-source/package-lock.json .
+          cp -a /tmp/discivium-source/docs/. docs/
+          cp /tmp/discivium-source/README.md README.md
+          printf '\n# Prototype build and runtime exclusions\n' >> .gitignore
+          cat /tmp/discivium-source/.gitignore >> .gitignore
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('README.md')
+          s=p.read_text().replace('archived on the `legacy-ai-studio-backup` branch','archived in Discivium-test on the `legacy-ai-studio-backup` branch')
+          s += '\n## Repository history and current documentation\n\nThis implementation was transferred from [Discivium-test](https://github.com/Delstars/Discivium-test/tree/33917f9957f194c8aef2a865ca38b942c724c381). Earlier planning documents and diagrams under docs/ARCHITECTURE.md and docs/diagrams/ are preserved as historical design records; the current design is documented in docs/REPORT.md, docs/ADR.md, docs/UI_API.md and docs/uml/. Original test evidence remains linked to the test repository. See CONTRIBUTING.md for team workflow.\n'
+          p.write_text(s)
+          p=Path('docs/REPORT.md')
+          s=p.read_text().replace('Repository: https://github.com/Delstars/Discivium-test','Repository: https://github.com/Delstars/Discivium')
+          p.write_text(s)
+          PY
+          diff -qr /tmp/discivium-source/prototype prototype
+          diff -qr /tmp/discivium-source/ui ui
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: python -m unittest prototype.tests prototype.campus_tests -v
+      - run: npm ci && npm run build && npm test
+        working-directory: ui
+      - name: Commit imported files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .gitignore README.md docs prototype ui package.json package-lock.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Import verified Discivium application from Discivium-test at 33917f9"
+          git push origin HEAD:integrate-tested-prototype
