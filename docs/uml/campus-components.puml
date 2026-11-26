@@ -1,0 +1,77 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+skinparam componentStyle uml2
+package "Browser presentation" {
+ component "Role feature views\nReact" as UI
+ component "AppContext" as Context
+ component "Typed API client" as Client
+ UI --> Context
+ Context --> Client
+}
+interface "HTTP / JSON / multipart" as HTTP
+component "app.py\nHTTP session / CSRF / transaction" as Web
+Client ..> HTTP
+Web - HTTP
+component "CampusAPI\nsnapshot / command" as API
+Web --> API
+package "Application services" {
+ component IdentityService as Identity
+ component CourseService as Courses
+ component LearningFacade as Learning
+ component ResourceService as Resource
+ component RegistrationService as Registration
+ component AcademicRecordsService as Records
+ component AttendanceService as Attendance
+ component FinanceService as Finance
+ component StudentServices as Services
+ component AdvisingService as Advisor
+ component WorkspaceService as Workspace
+ component GovernanceService as Gov
+}
+Web --> Identity
+API --> Courses
+API --> Learning
+API --> Resource
+API --> Registration
+API --> Records
+API --> Attendance
+API --> Finance
+API --> Services
+API --> Advisor
+API --> Workspace
+API --> Gov
+Advisor --> Records
+Advisor --> Attendance
+Learning --> Courses
+Registration --> Courses
+Resource --> Courses
+Attendance --> Courses
+Workspace --> Courses
+component "LearningRepository / FileStorage" as Repo
+component "EventBus / Audit / Notification" as Events
+component "Database connection / schema" as DB
+database "SQLite" as Data
+Learning --> Repo
+Learning --> Events
+API --> DB
+Web --> DB
+Repo --> DB
+Events --> DB
+Identity --> DB
+Courses --> DB
+Resource --> DB
+Registration --> DB
+Records --> DB
+Attendance --> DB
+Finance --> DB
+Services --> DB
+Advisor --> DB
+Workspace --> DB
+Gov --> DB
+DB --> Data
+note bottom of Events
+Many campus mutations publish
+transactional audit / notification events.
+end note
+@enduml

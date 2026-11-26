@@ -1,0 +1,15 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+class LearningFacade {
+ -policies: dict
+}
+abstract class DeadlinePolicy {
+ {abstract} +evaluate(due,at): bool
+}
+class StrictDeadlinePolicy
+class AllowLatePolicy
+LearningFacade "1" --> "2" DeadlinePolicy
+DeadlinePolicy <|-- StrictDeadlinePolicy
+DeadlinePolicy <|-- AllowLatePolicy
+@enduml

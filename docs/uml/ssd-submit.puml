@@ -1,0 +1,10 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+actor Student
+participant ":Discivium" as System
+Student -> System: viewCoursework()
+System --> Student: assignments
+Student -> System: submit(assignmentId, filename, content)
+System --> Student: submissionConfirmation(status, late)
+@enduml

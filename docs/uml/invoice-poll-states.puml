@@ -1,0 +1,18 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+state "Invoice" as Invoice {
+ [*] --> Unpaid : admin issues
+ Unpaid --> Paid : owner settles [not already paid]
+ Paid --> [*]
+}
+state "Course poll" as Poll {
+ [*] --> Open : lecturer creates
+ Open --> Open : enrolled student responds [once]
+ Open --> Closed : assigned lecturer closes
+ Closed --> [*]
+}
+note bottom of Invoice
+Simulated settlement only.
+end note
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+[*] --> Withheld : admin assigns advisor
+Withheld --> Granted : student grants
+Granted --> Withheld : student revokes
+note right of Withheld
+No private record returned.
+Note writes denied.
+end note
+note right of Granted
+Assigned advisor may read
+released records and add shared note.
+end note
+@enduml

@@ -1,0 +1,50 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+left to right direction
+actor Student
+actor Lecturer
+actor Administrator as Admin
+actor "Academic advisor" as Advisor
+rectangle Discivium {
+ usecase "Register / view timetable" as REG
+ usecase "Publish / submit / grade coursework" as LEARN
+ usecase "Publish / download resources" as RES
+ usecase "Mark / view attendance" as ATT
+ usecase "Release / view academic record" as RECORD
+ usecase "Issue / settle demo invoice" as FIN
+ usecase "Create / process service request" as SVC
+ usecase "Grant / revoke consent" as CONSENT
+ usecase "View permitted advisee record" as ADVICE
+ usecase "Add shared advising note" as NOTE
+ usecase "Course discussions / polls" as WORK
+ usecase "Manage users, programmes,\nofferings and assignments" as GOV
+ usecase "View audit" as AUDIT
+ usecase "View / read notifications" as NOTIF
+}
+Student -- REG
+Student -- LEARN
+Lecturer -- LEARN
+Student -- RES
+Lecturer -- RES
+Student -- ATT
+Lecturer -- ATT
+Student -- RECORD
+Lecturer -- RECORD
+Student -- FIN
+Admin -- FIN
+Student -- SVC
+Admin -- SVC
+Student -- CONSENT
+Advisor -- ADVICE
+Advisor -- NOTE
+Student -- WORK
+Lecturer -- WORK
+Admin -- REG
+Admin -- GOV
+Admin -- AUDIT
+Student -- NOTIF
+Lecturer -- NOTIF
+Admin -- NOTIF
+Advisor -- NOTIF
+@enduml

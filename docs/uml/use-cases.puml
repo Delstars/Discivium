@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+left to right direction
+actor Student
+actor Lecturer
+actor Administrator
+rectangle Discivium {
+ usecase "UC1 Publish assignment" as U1
+ usecase "UC2 Submit assignment" as U2
+ usecase "UC3 Release feedback" as U3
+ usecase "UC4 View coursework" as U4
+ usecase "UC5 Download submission" as U5
+ usecase "UC6 View feedback" as U6
+ usecase "UC7 Enroll student" as U7
+ usecase "UC8 View notifications" as U8
+}
+Lecturer -- U1
+Student -- U2
+Lecturer -- U3
+Student -- U4
+Lecturer -- U4
+Student -- U5
+Lecturer -- U5
+Student -- U6
+Administrator -- U7
+Student -- U8
+Lecturer -- U8
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+actor Student
+participant "Handler" as H
+participant "IdentityService" as I
+participant "LearningFacade" as F
+participant "LearningRepository" as R
+participant "CourseService" as C
+participant "DeadlinePolicy" as P
+participant "SQLiteFileAdapter" as S
+participant "EventBus" as E
+database "SQLite" as DB
+Student -> H: POST /submit(file, assignment_id, csrf)
+H -> I: resolve(db, token)
+I --> H: user, csrf
+H -> DB: BEGIN IMMEDIATE
+H -> F: submit(db, user, assignment_id, filename, content)
+F -> R: assignment(db, assignment_id)
+F -> C: require_student(db, user, course_id)
+F -> F: validate_file(filename, content)
+F -> P: evaluate(due, at)
+alt invalid / duplicate / unauthorised
+ F --> H: DomainError
+ H -> DB: ROLLBACK
+ H --> Student: 4xx error
+else valid
+ F -> R: create_submission(...)
+ R -> DB: INSERT submission
+ F -> S: save(db, sid, content)
+ S -> DB: INSERT file BLOB
+ F -> E: publish(db, event)
+ E -> DB: INSERT audit and notification via observers
+ F --> H: submission id
+ H -> DB: COMMIT
+ H --> Student: 303 redirect
+end
+@enduml

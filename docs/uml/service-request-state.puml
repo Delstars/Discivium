@@ -1,0 +1,14 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+[*] --> Pending : create
+Pending --> InReview : admin review
+Pending --> Rejected : admin reject [decision]
+InReview --> Resolved : admin resolve [decision]
+InReview --> Rejected : admin reject [decision]
+Pending --> Cancelled : owner cancel
+InReview --> Cancelled : owner cancel
+Resolved --> [*]
+Rejected --> [*]
+Cancelled --> [*]
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+|Student|
+start
+:Choose assignment;
+:Select document and submit;
+|Discivium|
+:Resolve session and check CSRF;
+if (Authenticated and enrolled?) then (yes)
+ :Check file and deadline policy;
+ if (Valid and deadline permitted?) then (yes)
+  if (Already submitted?) then (yes)
+   :Reject duplicate;
+  else (no)
+   :Create submission record and save file;
+   fork
+    :Record audit event;
+   fork again
+    :Create lecturer notification;
+   end fork
+   :Commit transaction;
+   |Student|
+   :See submitted status;
+   stop
+  endif
+ else (no)
+  :Reject invalid or late document;
+ endif
+else (no)
+ :Reject unauthorised request;
+endif
+|Student|
+:See rejection;
+stop
+@enduml

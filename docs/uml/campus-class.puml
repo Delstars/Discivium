@@ -1,0 +1,103 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+skinparam classAttributeIconSize 0
+class CampusAPI {
+ -courses: CourseService
+ -learning: LearningFacade
+ -bus: EventBus
+ +snapshot(db,user,csrf)
+ +command(db,user,name,fields)
+}
+class RegistrationService {
+ -courses: CourseService
+ -bus: EventBus
+ +register(db,user,cid)
+ +admin_enroll(db,user,cid,sid)
+ +allocate(db,user,sid,cid)
+ +catalogue(db,user)
+ +timetable(db,user)
+}
+class AcademicRecordsService {
+ -courses: CourseService
+ -bus: EventBus
+ +release(db,user,cid,sid)
+ +record(db,sid)
+ +letter(pct)
+}
+class AttendanceService {
+ -courses: CourseService
+ -bus: EventBus
+ +create(db,user,cid,day,title)
+ +mark(db,user,session,sid,status)
+ +student_record(db,sid)
+}
+class FinanceService {
+ -bus: EventBus
+ +ledger(db,user)
+ +pay(db,user,iid)
+ +issue(db,user,sid,title,amount,due)
+}
+class StudentServices {
+ -bus: EventBus
+ +create(db,user,category,subject,description)
+ +change(db,user,rid,status,note)
+ +list(db,user)
+}
+class AdvisingService {
+ -records: AcademicRecordsService
+ -attendance: AttendanceService
+ -bus: EventBus
+ +consent(db,user,advisor,enabled)
+ +require(db,user,sid)
+ +note(db,user,sid,note)
+ +students(db,user)
+ +student_view(db,user)
+}
+class WorkspaceService {
+ -courses: CourseService
+ -bus: EventBus
+ +message(db,user,cid,body)
+ +form(db,user,cid,title,question,options)
+ +respond(db,user,fid,choice)
+ +close(db,user,fid)
+ +read(db,user,cid)
+}
+class GovernanceService {
+ -bus: EventBus
+ +overview(db,user)
+ +programme(db,user,name,department)
+ +assign_programme(db,user,sid,pid)
+ +assign_advisor(db,user,sid,aid)
+ +create_course(db,user,...)
+ +create_user(db,user,...)
+}
+class ResourceService {
+ -courses: CourseService
+ -bus: EventBus
+ +create(db,user,cid,title,filename,content)
+ +list(db,user,cid)
+ +download(db,user,rid)
+}
+class CourseService
+class LearningFacade
+class EventBus
+CampusAPI "1" --> "1" RegistrationService
+CampusAPI "1" --> "1" AcademicRecordsService
+CampusAPI "1" --> "1" AttendanceService
+CampusAPI "1" --> "1" FinanceService
+CampusAPI "1" --> "1" StudentServices
+CampusAPI "1" --> "1" AdvisingService
+CampusAPI "1" --> "1" WorkspaceService
+CampusAPI "1" --> "1" GovernanceService
+CampusAPI "1" --> "1" ResourceService
+CampusAPI "1" --> "1" CourseService
+CampusAPI "1" --> "1" LearningFacade
+AdvisingService "1" --> "1" AcademicRecordsService
+AdvisingService "1" --> "1" AttendanceService
+RegistrationService ..> CourseService
+AttendanceService ..> CourseService
+WorkspaceService ..> CourseService
+ResourceService ..> CourseService
+CampusAPI "1" --> "1" EventBus
+@enduml

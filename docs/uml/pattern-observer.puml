@@ -1,0 +1,22 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+class LearningFacade
+class EventBus {
+ -observers: list
+ +subscribe(observer)
+ +publish(db,event)
+}
+interface "Observer protocol" as Observer {
+ +update(db,event)
+}
+class AuditObserver
+class NotificationObserver
+LearningFacade --> EventBus
+EventBus "1" o-- "0..*" Observer
+Observer <|.. AuditObserver
+Observer <|.. NotificationObserver
+note bottom of Observer
+Python duck typing; no explicit interface class.
+end note
+@enduml

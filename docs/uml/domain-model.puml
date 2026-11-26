@@ -1,0 +1,56 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+hide methods
+hide circle
+class User {
+ username
+ name
+ role
+}
+class Course {
+ code
+ title
+}
+class Enrollment
+class Assignment {
+ title
+ description
+ dueAt
+ maxPoints
+ policy
+}
+class Submission {
+ filename
+ submittedAt
+ late
+ status
+}
+class Feedback {
+ score
+ comment
+ releasedAt
+}
+class Notification {
+ message
+ createdAt
+}
+class AuditEntry {
+ action
+ createdAt
+}
+User "1" -- "0..*" Course : teaches >
+User "1" -- "0..*" Enrollment : student >
+Course "1" -- "0..*" Enrollment
+Course "1" -- "0..*" Assignment
+Assignment "1" -- "0..*" Submission
+User "1" -- "0..*" Submission : submits >
+Submission "1" -- "0..1" Feedback
+User "1" -- "0..*" Feedback : writes >
+User "1" -- "0..*" Notification : receives >
+User "1" -- "0..*" AuditEntry : performs >
+note right of Enrollment
+Student role only.
+One per student-course pair.
+end note
+@enduml

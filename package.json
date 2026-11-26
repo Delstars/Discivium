@@ -1,0 +1,13 @@
+{
+  "name": "discivium-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "install": "npm --prefix ui ci",
+    "dev": "npm --prefix ui run dev",
+    "build": "npm --prefix ui run build",
+    "lint": "npm --prefix ui run lint",
+    "test": "npm --prefix ui test",
+    "preview": "npm --prefix ui run preview"
+  }
+}

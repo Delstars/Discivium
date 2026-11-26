@@ -41,3 +41,18 @@ htmlcov/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Prototype build and runtime exclusions
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+prototype/runtime/
+ui/node_modules/
+ui/dist/
+docs/output/
+docs/uml/*.svg
+
+node_modules/
+ui/browser-evidence/

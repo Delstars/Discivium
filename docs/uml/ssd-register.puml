@@ -1,0 +1,16 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+actor Student
+participant ":Discivium" as System
+Student -> System: viewCatalogue()
+System --> Student: offerings, prerequisites, seats
+Student -> System: register(courseId)
+alt eligible
+ System --> Student: registration confirmed
+ Student -> System: viewTimetable()
+ System --> Student: updated timetable
+else rejected
+ System --> Student: conflict reason
+end
+@enduml

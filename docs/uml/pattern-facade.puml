@@ -1,0 +1,21 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+class Handler
+class LearningFacade {
+ +submit(db,user,assignment_id,filename,content)
+ +publish_assignment(...)
+ +grade(...)
+}
+class CourseService
+class LearningRepository
+abstract class FileStorage
+abstract class DeadlinePolicy
+class EventBus
+Handler ..> LearningFacade
+LearningFacade --> CourseService
+LearningFacade --> LearningRepository
+LearningFacade --> FileStorage
+LearningFacade --> DeadlinePolicy
+LearningFacade --> EventBus
+@enduml

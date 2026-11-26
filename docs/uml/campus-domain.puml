@@ -1,0 +1,108 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+hide methods
+hide circle
+class User { 
+ name
+ role
+}
+class Programme {
+ name
+ department
+}
+class Course {
+ code
+ title
+}
+class Offering {
+ semester
+ credits
+ capacity
+ weekday
+ startMin
+ endMin
+ room
+}
+class Enrollment
+class CourseResult {
+ percentage
+ credits
+ releasedAt
+}
+class AttendanceSession {
+ date
+ title
+}
+class AttendanceMark {
+ status
+}
+class Invoice {
+ title
+ amountFils
+ dueDate
+}
+class Payment {
+ amountFils
+ recordedAt
+}
+class ServiceRequest {
+ category
+ subject
+ description
+ status
+ decision
+}
+class AdvisorAssignment {
+ consent
+}
+class AdvisingNote {
+ note
+ createdAt
+}
+class Resource {
+ title
+ filename
+ createdAt
+}
+class CourseMessage {
+ body
+ createdAt
+}
+class CourseForm {
+ title
+ question
+ options
+ open
+}
+class FormResponse {
+ choice
+}
+User "0..*" -- "0..1" Programme : studies
+User "1" -- "0..*" Course : teaches
+Course "1" -- "0..1" Offering
+Course "0..*" --> "0..*" Course : prerequisite
+User "1" -- "0..*" Enrollment : student
+Course "1" -- "0..*" Enrollment
+User "1" -- "0..*" CourseResult : student
+Course "1" -- "0..*" CourseResult
+Course "1" -- "0..*" AttendanceSession
+AttendanceSession "1" -- "0..*" AttendanceMark
+User "1" -- "0..*" AttendanceMark : student
+User "1" -- "0..*" Invoice : student
+Invoice "1" -- "0..1" Payment
+User "1" -- "0..*" ServiceRequest : requester
+User "1" -- "0..*" AdvisorAssignment : student
+User "1" -- "0..*" AdvisorAssignment : advisor
+User "1" -- "0..*" AdvisingNote : author advisor
+User "1" -- "0..*" AdvisingNote : student
+Course "1" -- "0..*" Resource
+Course "1" -- "0..*" CourseMessage
+User "1" -- "0..*" CourseMessage : author
+Course "1" -- "0..*" CourseForm
+CourseForm "1" -- "0..*" FormResponse
+User "1" -- "0..*" FormResponse : student
+note bottom of FormResponse
+At most one response per student per poll.
+end note
+@enduml
