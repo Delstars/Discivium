@@ -1,0 +1,33 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+skinparam componentStyle uml2
+component "Web presentation\napp.py / views.py" as Web
+component "Identity & access\nidentity.py" as Identity
+component "Courses\ncourses.py" as Courses
+component "Learning\nlearning.py" as Learning
+component "Repository & storage\nLearningRepository / SQLiteFileAdapter" as Repo
+component "Events\nEventBus / observers" as Events
+component "Database infrastructure\ndb.py" as DB
+database "SQLite\nrecords + document BLOBs" as Data
+interface "authenticate / resolve" as I
+interface "membership / enroll" as C
+interface "publish / submit / grade / read" as L
+Web ..> I
+Identity - I
+Web ..> C
+Courses - C
+Web ..> L
+Learning - L
+Learning ..> C
+Learning --> Repo
+Learning --> Events
+Web --> DB : transaction scope
+Identity --> DB
+Courses --> DB
+Repo --> DB
+Events --> DB
+Learning --> DB : remaining SQL
+Web --> DB : read views
+DB --> Data : sqlite3
+@enduml

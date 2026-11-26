@@ -1,0 +1,23 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+node "Demonstration computer" {
+ node "Web browser" as Browser {
+  artifact "React / TypeScript compiled JS + CSS" as UI
+ }
+ node "Python 3.11+ HTTPServer\n127.0.0.1:8000" as Server {
+  artifact "prototype package" as App
+  artifact "ui/dist static assets" as Static
+  artifact "In-memory session store" as Session
+ }
+ artifact "SQLite file\nrecords + BLOBs" as Data
+}
+Browser --> Server : same-origin HTTP\n/ui/ and /api/*
+App --> Data : sqlite3 file I/O
+App --> Session : session resolution
+Server --> Static : serves files
+note bottom of Data
+Fictional records; no cloud services.
+Node/Vite required only to build assets.
+end note
+@enduml

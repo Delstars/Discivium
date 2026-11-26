@@ -1,0 +1,31 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 12
+|Student|
+start
+:Select offering;
+|Discivium|
+:Resolve session and check student role;
+if (Authenticated student?) then (yes)
+ :Begin transaction;
+ :Check current offering and prior result;
+ :Check duplicate and closed course;
+ :Check capacity, prerequisite, clash and credits;
+ if (Eligible?) then (yes)
+  :Insert enrollment;
+  :Record audit and notification;
+  :Commit;
+  |Student|
+  :View refreshed timetable;
+  stop
+ else (no)
+  |Discivium|
+  :Rollback and return conflict;
+ endif
+else (no)
+ :Reject unauthorised request;
+endif
+|Student|
+:View rejection;
+stop
+@enduml

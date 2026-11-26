@@ -1,38 +1,65 @@
-# Discivium
+# Discivium — BCS305 coursework prototype
 
-A unified student platform for coursework and campus services.
+**Current implementation.** A runnable local university management and coursework system, using fictional accounts. The original Google AI Studio React/Firebase/Express implementation is archived in Discivium-test on the `legacy-ai-studio-backup` branch and removed from the active source tree. AI is excluded from the active release.
 
-Discivium is a four-person Software Architecture course project. Its long-term goal is to bring assignments, deadlines, academic records, registration and student finance into a coherent experience.
+## Run the presentation build (Python 3.11+)
 
-The name is coined and inspired by Latin *discere*, meaning "to learn." It is a project name, not a literal Latin translation. [Language reference](https://lrc.la.utexas.edu/eieol_master_gloss/latol/1).
+Open [Frontend integration verification](https://github.com/Delstars/Discivium/actions/workflows/frontend-verification.yml?query=branch%3Aintegrate-tested-prototype), select the latest successful run for the presentation branch, and download **Discivium-offline-demo** from its artifacts. GitHub requires sign-in for artifact downloads. Unzip it before the presentation. From the extracted folder, run:
 
-## Current status
+```sh
+python -m prototype.app --db prototype/runtime/presentation.sqlite3
+```
 
-Planning and repository setup. The application has not been implemented yet.
+On Windows use `py -3` if needed. Open [the demo](http://127.0.0.1:8000/ui/). The ZIP already includes the built React interface. See the [rehearsal guide](docs/DEMO.md) for the walkthrough, fallback URL and database options.
 
-## First release
+## Build from source (Python 3.11+, Node.js 20+)
 
-The proposed first release focuses on a complete coursework journey:
+From the repository root:
+```sh
+cd ui
+npm ci
+npm run build
+cd ..
+python -m prototype.app
+```
+Open http://127.0.0.1:8000/ui/ in a browser. The fallback HTML interface is available at http://127.0.0.1:8000/. On Windows use `py -3` instead of `python` if needed. All demo accounts share **DemoOnly!2026**. They are deliberately public and must never be used in a deployment.
 
-- A lecturer publishes an assignment with a due date.
-- An enrolled student sees upcoming deadlines and submits an assignment file.
-- The lecturer records feedback and the student views it.
-- Permission checks keep each user's records within their authorized role and course.
+| Account | Responsibility |
+| --- | --- |
+| lecturer | BCS305 assigned lecturer |
+| student | Enrolled in BCS305 |
+| other | Not enrolled in BCS305; enrolled in BCS306 |
+| lecturer2 | BCS306 assigned lecturer |
+| admin | Enroll students |
+| advisor | Consent-controlled advising |
 
-Academic records, registration and finance remain part of the product roadmap. Initial demonstrations of those modules will use fictional data. Discivium is an independent student prototype and has no live university integration.
+## Live demo
 
-## Proposed technology
+1. Sign in as lecturer and publish an assignment with a future deadline (UAE time), 30 points, strict or allow-late policy.
+2. Sign out; sign in as student. Open BCS305 and upload a real small PDF or DOCX.
+3. Sign in as lecturer; download the actual uploaded file, enter 27/30 and feedback, release it.
+4. Sign in as student again; verify the score, feedback and notifications. Restart the server and verify persistence.
+5. Demonstrate rejection: other cannot view BCS305 or download its submission; lecturer2 cannot grade it. Submit a wrong file type or duplicate; try an expired strict deadline.
+6. Admin can enroll another eligible student; students grant or revoke assigned advisor access. Explore registration, attendance, academic record, simulated finance, service requests, resources, discussion and polls in the full campus dashboard.
 
-Python, Django, server-rendered HTML/CSS, and SQLite for the initial local prototype. The team will record its final architecture and deployment decisions as it evaluates requirements.
+## Tests
+```sh
+python -m unittest prototype.tests prototype.campus_tests -v
+```
+Tests cover service rules and HTTP workflows using temporary databases. For frontend verification run `cd ui && npm ci && npm test && npm run build`. GitHub Actions also exercises live Chromium mutation workflows and `python -m prototype.benchmark` (local upload/restart scenarios). See [verified finalisation evidence](docs/VERIFICATION.md). Reset the demo by stopping the app and deleting only `prototype/runtime/discivium.sqlite3` (destroys local demo data).
 
-## Getting started
+## UI handoff
 
-Clone the repository, then read [the roadmap](docs/ROADMAP.md), [the proposed architecture](docs/ARCHITECTURE.md) and [the contribution guide](CONTRIBUTING.md). There are no application setup or run commands yet; add and verify them when the first runnable application is merged.
+[API contract](docs/UI_API.md) · [Google AI Studio prompt](docs/AI_STUDIO_PROMPT.md) · [Expanded architecture and documentation handoff](docs/CAMPUS_EXPANSION.md). The revised report documents both the coursework slice and the expanded campus system; final team details and review are required.
 
-## Working together
+## Scope and architecture
 
-Claim an issue before implementation, use a branch for each task, and open a pull request for another teammate to review. Keep `main` runnable once application development begins.
+Layered modular monolith: browser / presentation, Identity, Courses, Learning, data access and SQLite. Files are stored as BLOBs atomically with submissions. Four patterns: Facade, Strategy, Adapter, Observer. See [project design and report draft](docs/REPORT.md), [diagram sources](docs/uml), and [decision records](docs/ADR.md).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [the check-in checklist](docs/CHECK_IN.md), [the proposed architecture](docs/ARCHITECTURE.md), and [the architecture decision template](docs/decisions/0000-template.md).
+Local loopback only: Python HTTPServer is not production-grade; sessions are in memory, credentials are fictional, basic file signature validation is not malware scanning, no TLS or university integration. Expanded campus workflows include registration, attendance, released results and GPA, fictional CSV export, simulated finance, requests, advisor consent, course resources, discussion/polls, programme and account management. No AI, official transcripts, real financial processing, cloud integration or production deployment. The archived legacy UI is not a working production alternative. The React frontend is integrated; see verification evidence and latest CI status.
 
-Use fictional accounts and records in code, screenshots and demonstrations. Keep secrets, real student information and supplied lecture materials out of the public repository.
+AI assistance: Google AI Studio generated the React frontend; ChatGPT generated the backend, refactors, tests and draft documentation from the course materials and existing repository; team must review, run tests and record actual contributions and modifications before submission. No real student data or secrets in this repository.
+
+## Repository history and current documentation
+
+This implementation was transferred from [Discivium-test](https://github.com/Delstars/Discivium-test/tree/33917f9957f194c8aef2a865ca38b942c724c381). Earlier planning documents and diagrams under docs/ARCHITECTURE.md and docs/diagrams/ are preserved as historical design records; the current design is documented in docs/REPORT.md, docs/ADR.md, docs/UI_API.md and docs/uml/. Original test evidence remains linked to the test repository. See CONTRIBUTING.md for team workflow.

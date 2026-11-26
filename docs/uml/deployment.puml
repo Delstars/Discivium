@@ -1,0 +1,19 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+node "Demonstration computer" {
+ node "Browser" as Browser
+ node "Python 3.11+ process" as Python {
+  artifact "prototype package" as App
+  artifact "In-memory sessions" as Session
+ }
+ artifact "discivium.sqlite3\nrecords + BLOBs" as File
+}
+Browser --> Python : HTTP / loopback :8000
+App --> File : sqlite3 file I/O
+App --> Session : session resolution
+note bottom of File
+Fictional records only.
+No cloud dependency or production deployment.
+end note
+@enduml

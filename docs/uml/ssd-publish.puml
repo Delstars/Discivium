@@ -1,0 +1,8 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+actor Lecturer
+participant ":Discivium" as System
+Lecturer -> System: publishAssignment(courseId, title, description, dueAt, maxPoints, policy)
+System --> Lecturer: assignmentVisible()
+@enduml

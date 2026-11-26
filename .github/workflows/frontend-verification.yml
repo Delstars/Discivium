@@ -1,0 +1,64 @@
+name: Frontend integration verification
+on:
+  push:
+    branches: [main, integrate-tested-prototype]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: python -m unittest prototype.tests prototype.campus_tests -v
+      - run: npm ci
+        working-directory: ui
+      - run: npm run build
+        working-directory: ui
+      - run: npm test
+        working-directory: ui
+      - name: Install browser test tooling
+        working-directory: ui
+        run: |
+          npm install --no-save --package-lock=false @playwright/test
+          npx playwright install --with-deps chromium
+      - name: Run live browser integration
+        working-directory: ui
+        run: |
+          # Python package is at repository root, not ui/.
+          cd ..
+          python -m prototype.app --db /tmp/discivium-browser-test.sqlite3 > /tmp/discivium-live-server.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/api/session && break; sleep 1; done
+          cd ui
+          node browser-check.mjs
+          node browser-workflow.mjs
+      - name: Measure quality scenarios
+        run: |
+          mkdir -p ui/browser-evidence
+          python -m prototype.benchmark | tee ui/browser-evidence/quality-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-browser-evidence
+          path: ui/browser-evidence/
+      - name: Upload offline presentation demo
+        uses: actions/upload-artifact@v4
+        with:
+          name: Discivium-offline-demo
+          if-no-files-found: error
+          path: |
+            README.md
+            docs/DEMO.md
+            prototype/*.py
+            prototype/*.sql
+            ui/dist/

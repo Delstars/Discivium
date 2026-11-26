@@ -1,0 +1,12 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+actor Lecturer
+participant ":Discivium" as System
+Lecturer -> System: viewCoursework()
+System --> Lecturer: submissions
+Lecturer -> System: download(submissionId)
+System --> Lecturer: document
+Lecturer -> System: grade(submissionId, score, comment)
+System --> Lecturer: feedbackReleased()
+@enduml

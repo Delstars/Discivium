@@ -1,0 +1,79 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+skinparam classAttributeIconSize 0
+class User {
+ +id: int
+ +username: str
+ +name: str
+ +role: str
+}
+class IdentityService {
+ -sessions: dict
+ +authenticate(db, username, password): str
+ +resolve(db, token)
+ +logout(token)
+}
+class CourseService {
+ +get(db, course_id)
+ +require_lecturer(db, user, course_id)
+ +require_student(db, user, course_id)
+ +visible(db, user)
+ +enroll(db, user, course_id, student_id)
+}
+class LearningFacade {
+ -policies: dict
+ +publish_assignment(db, user, course_id, ...)
+ +submit(db, user, assignment_id, filename, content)
+ +grade(db, user, submission_id, score, comment)
+ +download(db, user, submission_id)
+ +assignments(db, user, course_id)
+ +submissions(db, user, assignment_id)
+}
+class LearningRepository {
+ +assignment(db, aid)
+ +submission(db, sid)
+ +create_submission(db, aid, user_id, filename, stamp, late)
+}
+class Database {
+ -path: Path
+ +connect()
+ +initialize()
+}
+abstract class FileStorage {
+ +save(db, submission_id, content)
+ +load(db, submission_id)
+}
+class SQLiteFileAdapter
+abstract class DeadlinePolicy {
+ +evaluate(due, at): bool
+}
+class StrictDeadlinePolicy
+class AllowLatePolicy
+class EventBus {
+ -observers: list
+ +subscribe(observer)
+ +publish(db, event)
+}
+class AuditObserver {
+ +update(db, event)
+}
+class NotificationObserver {
+ +update(db, event)
+}
+IdentityService ..> User : resolves
+LearningFacade "1" --> "1" CourseService
+LearningFacade "1" --> "1" LearningRepository
+LearningFacade "1" --> "1" FileStorage
+LearningFacade "1" --> "2" DeadlinePolicy
+LearningFacade "1" --> "1" EventBus
+DeadlinePolicy <|-- StrictDeadlinePolicy
+DeadlinePolicy <|-- AllowLatePolicy
+FileStorage <|-- SQLiteFileAdapter
+EventBus "1" o-- "1" AuditObserver
+EventBus "1" o-- "1" NotificationObserver
+IdentityService ..> Database : uses connection
+CourseService ..> Database : uses connection
+LearningRepository ..> Database : uses connection
+SQLiteFileAdapter ..> Database : uses connection
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+[*] --> Submitted : submit [authorised and valid]
+Submitted --> Graded : grade [assigned lecturer and valid score]
+Graded --> [*]
+note right of Submitted
+Late is a flag, not a state.
+Duplicate submit is rejected.
+end note
+note right of Graded
+Read/download do not change state.
+No regrading in first release.
+end note
+@enduml

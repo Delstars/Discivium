@@ -1,0 +1,17 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontSize 13
+class LearningFacade
+abstract class FileStorage {
+ {abstract} +save(db,submission_id,content)
+ {abstract} +load(db,submission_id)
+}
+class SQLiteFileAdapter {
+ +save(db,submission_id,content)
+ +load(db,submission_id)
+}
+class "sqlite3.Connection" as Connection
+LearningFacade --> FileStorage
+FileStorage <|-- SQLiteFileAdapter
+SQLiteFileAdapter ..> Connection : adapts SQL/BLOB
+@enduml
